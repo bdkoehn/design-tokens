@@ -24,6 +24,9 @@ export const convertPaintToRgba = (paint): ColorRgba => {
 export const convertRgbaObjectToString = (rgbaObject: ColorRgba): string => `rgba(${rgbaObject.r}, ${rgbaObject.g}, ${rgbaObject.b}, ${rgbaObject.a})`
 
 export const rgbaObjectToHex8 = (rgbaObject: ColorRgba): string => {
-  // return value
-  return tinycolor(convertRgbaObjectToString(rgbaObject)).toHex8String()
+  //return value
+  //return tinycolor(convertRgbaObjectToString(rgbaObject)).toHex8String()
+  return tinycolor(convertRgbaObjectToString(rgbaObject)).toHexString()
+  //return convertRgbaObjectToString(rgbaObject)
+
 }

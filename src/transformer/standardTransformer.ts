@@ -2,7 +2,7 @@ import { rgbaObjectToHex8 } from '../utilities/convertColor'
 import { internalTokenInterface } from '@typings/propertyObject'
 import { StandardTokenInterface, StandardTokenTypes, StandardTokenDataInterface, StandardTokenGroup } from '@typings/standardToken'
 import roundWithDecimals from '../utilities/roundWithDecimals'
-import { tokenExtensions } from './tokenExtensions'
+//import { tokenExtensions } from './tokenExtensions'
 import config from '@config/config'
 
 const lineHeightToDimension = (values): number => {
@@ -161,6 +161,38 @@ const gradientValueTransformer = ({ gradientType, rotation, stops, opacity }): S
 })
 
 const fillValueTransformer = (token): StandardTokenDataInterface | StandardTokenGroup => {
+
+  const fills = token.values.map(fill => {
+      // check for alias
+    if (token.extensions && token.extensions[config.key.extensionPluginData] && token.extensions[config.key.extensionPluginData].alias) {
+      return {
+        type: Object.hasOwnProperty.call(fill, 'fill') ? 'color' : 'custom-gradient',
+        reference: `{${token.extensions[config.key.extensionPluginData].alias}}`,
+        value: colorValueTransformer(fill).value,
+        blendMode: fill?.blendMode?.toLowerCase() || 'normal'
+      }
+      // no alias, use value
+    } else {
+      if (Object.hasOwnProperty.call(fill, 'fill')) {
+        return {
+          type: Object.hasOwnProperty.call(fill, 'fill') ? 'color' : 'custom-gradient',
+          reference: "",
+          value: colorValueTransformer(fill).value,
+          blendMode: fill?.blendMode?.toLowerCase() || 'normal'
+        }
+      }
+      return gradientValueTransformer(fill)
+    }
+  })
+  // only one fill
+  if (fills.length === 1) {
+    return fills[0]
+  }
+  // multiple fills
+  return { ...fills }
+}
+
+const fillRefValueTransformer = (token): StandardTokenDataInterface | StandardTokenGroup => {
   // check for alias
   if (token.extensions && token.extensions[config.key.extensionPluginData] && token.extensions[config.key.extensionPluginData].alias) {
     return {
@@ -259,6 +291,7 @@ const valueTransformer = {
 const transformTokens = (token: internalTokenInterface): StandardTokenDataInterface | StandardTokenGroup => valueTransformer[token.category](token)
 
 const transformer = (token: internalTokenInterface): StandardTokenInterface | StandardTokenGroup => {
+  //console.log(token.values)
   if (token.category === 'typography') {
     // @ts-ignore
     return {
@@ -271,8 +304,8 @@ const transformer = (token: internalTokenInterface): StandardTokenInterface | St
   return {
     name: token.name,
     description: token.description,
-    ...transformTokens(token),
-    ...tokenExtensions(token)
+    ...transformTokens(token)
+    //...tokenExtensions(token)
   }
 }
 

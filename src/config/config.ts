@@ -28,7 +28,7 @@ export default {
       bearer: 'Bearer'
     }
   },
-  exclusionPrefixDefault: ['_', '.'],
+  exclusionPrefixDefault: ['~', '_', '.'],
   fileExtensions: [
     {
       label: '.tokens.json',

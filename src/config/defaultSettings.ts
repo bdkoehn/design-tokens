@@ -15,8 +15,8 @@ export const defaultSettings: Settings = {
   contentType: 'text/plain;charset=UTF-8',
   authType: 'token',
   reference: 'main',
-  exclusionPrefix: '',
-  alias: 'alias, ref, reference',
+  exclusionPrefix: '~',
+  alias: 'ref',
   keyInName: false,
   prefixInName: true,
   prefix: {

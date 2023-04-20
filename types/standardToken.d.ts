@@ -30,11 +30,12 @@ export type StandardCompositeTokenValueType = {
 export type StandardTokenGroup = {
   [name: string]: {
     description?: string
+    reference?: string
     [name: string | number]: StandardTokenDataInterface | string
   }
 }
 
-export type pluginExtensionKey = 'org.lukasoppermann.figmaDesignTokens'
+export type pluginExtensionKey = 'org.csaa.figmaDesignTokens'
 
 export type StandardTokenExtensionsInterface = {
   [key: string | pluginExtensionKey]: any | {
@@ -48,6 +49,7 @@ export type StandardTokenExtensionsInterface = {
 
 export type StandardTokenDataInterface = {
   description?: string,
+  reference?: string,
   value: StandardTokenValueType | StandardCompositeTokenValueType,
   type: StandardTokenTypes,
   blendMode?: BlendType,

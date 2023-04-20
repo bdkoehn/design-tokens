@@ -68,6 +68,7 @@ export type fontPropertyInterface = propertyObject & {
 export type fillValuesType = {
   fill: {
     value: ColorRgba,
+    reference: ColorRgba,
     type: PropertyType,
     blendMode: BlendType
   }
